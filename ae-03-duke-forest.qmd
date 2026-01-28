@@ -1,5 +1,8 @@
 ---
 title: "AE 03: Duke Forest + data visualization"
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
 ```{r}
@@ -27,6 +30,7 @@ Luckily, you can help them answer this question with data visualization!
 
 duke_forest |>
   mutate(garage = if_else(str_detect(parking, "Garage"),   "Garage", "No garage"))
+
 ```
 
 -   Then, facet by `garage` and use different colors for the two facets.
@@ -37,10 +41,19 @@ duke_forest |>
 ```{r}
 #| label: price-garage
 
-# add code here
+ggplot(data = garage, aes(x = price)) + 
+  geom_histogram(binwidth = 100000) + 
+  facet_wrap(~garage) + 
+  labs(
+  x = "Price($)" , 
+  y = "Count",
+  title = "How Garages Impact Home Price Distribution",)
+
 ```
 
 Add narrative here...
+The presence of a garage appears to marginally lower prices.
+Properties with no garages may be more in demand.
 
 ::: callout-important
 Now is a good time to render, commit, and push.
