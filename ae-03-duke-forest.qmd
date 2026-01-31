@@ -11,6 +11,7 @@ editor:
 
 library(tidyverse)
 library(openintro)
+library(scales)
 ```
 
 ## Exercise 1
@@ -28,7 +29,7 @@ Luckily, you can help them answer this question with data visualization!
 #| label: garage
 #| eval: false
 
-duke_forest |>
+duke_forest <- duke_forest |>
   mutate(garage = if_else(str_detect(parking, "Garage"),   "Garage", "No garage"))
 
 ```
@@ -41,7 +42,7 @@ duke_forest |>
 ```{r}
 #| label: price-garage
 
-ggplot(data = garage, aes(x = price)) + 
+ggplot(data = duke_forest, aes(x = price)) + 
   geom_histogram(binwidth = 100000) + 
   facet_wrap(~garage) + 
   labs(
@@ -80,10 +81,22 @@ Once again, data visualization skills to the rescue!
 ```{r}
 #| label: price-area
 
-# add code here
+ggplot(data = duke_forest, aes(x = area, y = price, color = year_built)) +
+  geom_point() +
+  geom_smooth(se = FALSE) +
+  labs(
+    title = "How Size and Year of Construction Impacts House Prices",
+    x = "Area(thousand acre)",
+    y = "Price(million $)",
+    color = "Year Built"
+  ) +
+  scale_y_continuous(label = label_number(scale = 1/100000)) +
+  scale_x_continuous(label = label_number(scale = 1/1000))
 ```
 
-Add narrative here...
+Larger houses are priced higher while newer homes are not priced higher.
+Overall, time of construction does not impact pricing as newer and older homes are priced across the board.
+Property size does have an impact on price.
 
 ::: callout-important
 Now is a good time to render, commit, and push.
